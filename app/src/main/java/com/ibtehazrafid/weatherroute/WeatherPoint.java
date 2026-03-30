@@ -16,8 +16,12 @@ public class WeatherPoint {
     private int thunderstormProbability;
     private int cloudCover;
     private boolean isDaytime;
+    private double windGust;
+    private String windDirection;
+    private int windDirectionDegrees;
+    private String precipitationType;
 
-    public WeatherPoint(double temp, double feelsLikeTemp, int humidity, double windSpeed, String weatherCond, String weatherIcon, double precipChance, double visibility, long forecastTime, double latitude, double longitude, int uvIndex, int thunderstormProbability, int cloudCover, boolean isDaytime) {
+    public WeatherPoint(double temp, double feelsLikeTemp, int humidity, double windSpeed, String weatherCond, String weatherIcon, double precipChance, double visibility, long forecastTime, double latitude, double longitude, int uvIndex, int thunderstormProbability, int cloudCover, boolean isDaytime, double windGust, String windDirection, int windDirectionDegrees, String precipitationType) {
         this.temp = temp;
         this.feelsLikeTemp = feelsLikeTemp;
         this.humidity = humidity;
@@ -33,6 +37,10 @@ public class WeatherPoint {
         this.thunderstormProbability = thunderstormProbability;
         this.cloudCover = cloudCover;
         this.isDaytime = isDaytime;
+        this.windGust = windGust;
+        this.windDirection = windDirection;
+        this.windDirectionDegrees = windDirectionDegrees;
+        this.precipitationType = precipitationType;
     }
 
     public double getTemp() {
@@ -151,7 +159,39 @@ public class WeatherPoint {
         return isDaytime;
     }
 
-    public void setisDaytime(boolean isDaytime) {
-        this.isDaytime = isDaytime;
+    public void setDaytime(boolean daytime) {
+        isDaytime = daytime;
+    }
+
+    public double getWindGust() {
+        return windGust;
+    }
+
+    public void setWindGust(double windGust) {
+        this.windGust = windGust;
+    }
+
+    public String getWindDirection() {
+        return windDirection;
+    }
+
+    public void setWindDirection(String windDirection) {
+        this.windDirection = windDirection;
+    }
+
+    public int getWindDirectionDegrees() {
+        return windDirectionDegrees;
+    }
+
+    public void setWindDirectionDegrees(int windDirectionDegrees) {
+        this.windDirectionDegrees = windDirectionDegrees;
+    }
+
+    public String getPrecipitationType() {
+        return precipitationType;
+    }
+
+    public void setPrecipitationType(String precipitationType) {
+        this.precipitationType = precipitationType;
     }
 }
