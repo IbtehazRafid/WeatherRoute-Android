@@ -4,11 +4,12 @@ plugins {
 
 android {
     namespace = "com.ibtehazrafid.weatherroute"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+
+    buildFeatures {
+        buildConfig = true
     }
+
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ibtehazrafid.weatherroute"
@@ -18,6 +19,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "MAPS_API_KEY", "\"${properties["GOOGLE_MAPS_API_KEY"]}\"")
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] =
+            properties["GOOGLE_MAPS_API_KEY"] ?: ""
     }
 
     buildTypes {
@@ -45,6 +50,10 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     // Places API
     implementation("com.google.android.gms:play-services-maps:20.0.0")
+    // Play Services Maps
+    implementation("com.google.maps.android:android-maps-utils:3.8.2")
+    // Places for Address Autocomplete
+    implementation("com.google.android.libraries.places:places:3.5.0")
     // Routes API + Weather API (Retrofit for HTTP calls)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
