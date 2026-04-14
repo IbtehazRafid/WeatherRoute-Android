@@ -5,44 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
     tools:context=".MainActivity">
 
-    <!--TopBar-->
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- MAP fills entire screen as base layer -->
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"/>
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="WeatherRoute"
-            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"/>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!--Content("Scrollable")-->
+    <!-- TOP overlay — scrollable cards floating over map -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="wrap_content"
         android:padding="16dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:fadingEdgeLength="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
-            <!--APP_CONTENT-->
-            <!--LocInputCard-->
+            <!--Toolbar-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:title="WeatherRoute"
+                    app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--LocationInputCard-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
                 app:strokeWidth="0dp">
 
                 <LinearLayout
@@ -69,7 +77,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!--DestInput-->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/destInputLayout"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -87,41 +94,49 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!--AddStopButton-->
+                    <!--StopsContainer-->
+                    <LinearLayout
+                        android:id="@+id/stopsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/addStopButton"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
                         android:text="+ Add Stop"
                         android:fontFamily="sans-serif"
                         android:textColor="@color/material_dynamic_primary40"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            
+
             <!--TravelModeCard-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
+                app:cardElevation="4dp"
                 app:strokeWidth="0dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Travel Mode"
                         android:fontFamily="sans-serif-medium"
-                        android:textSize="16sp"
-                        android:textColor="@attr/colorOnSurface"
-                        android:layout_marginBottom="12dp"/>
+                        android:textSize="14sp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="8dp"/>
+
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/travelModeChipGroup"
                         android:layout_width="match_parent"
@@ -135,8 +150,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Drive"
-                            android:fontFamily="sans-serif"
-                            android:checked="true"/>
+                            android:checked="true"
+                            android:fontFamily="sans-serif"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipWalk"
@@ -168,5 +183,70 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!--BottomOverlayDate/TimeCard-->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Departure"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurface"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dateButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Today"
+                    android:fontFamily="sans-serif"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/timeButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Now"
+                    android:fontFamily="sans-serif"/>
+
+            </LinearLayout>
+
+            <!--MainActionButton-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/getRouteButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get WeatherRoute"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
