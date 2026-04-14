@@ -1,19 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--TopBar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="WeatherRoute"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--Content("Scrollable")-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="16dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!--APP_CONTENT-->
+            <!--LocInputCard-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/originInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:hint="Starting point"
+                        app:startIconDrawable="@android:drawable/presence_online">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/originInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:fontFamily="sans-serif"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--DestInput-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/destInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Destination"
+                        app:startIconDrawable="@android:drawable/presence_busy">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/destInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:fontFamily="sans-serif"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--AddStopButton-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addStopButton"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="+ Add Stop"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/material_dynamic_primary40"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            
+            <!--TravelModeCard-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Travel Mode"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="16sp"
+                        android:textColor="@attr/colorOnSurface"
+                        android:layout_marginBottom="12dp"/>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/travelModeChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipDrive"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Drive"
+                            android:fontFamily="sans-serif"
+                            android:checked="true"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipWalk"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Walk"
+                            android:fontFamily="sans-serif"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipCycle"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cycle"
+                            android:fontFamily="sans-serif"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTransit"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Transit"
+                            android:fontFamily="sans-serif"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
