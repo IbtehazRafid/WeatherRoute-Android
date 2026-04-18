@@ -137,47 +137,58 @@
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="8dp"/>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/travelModeChipGroup"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:singleSelection="true"
-                        app:selectionRequired="true">
+                        android:orientation="horizontal">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipDrive"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Drive"
                             android:checked="true"
-                            android:fontFamily="sans-serif"/>
+                            android:gravity="center"
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipWalk"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Walk"
-                            android:fontFamily="sans-serif"/>
+                            android:gravity="center"
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipCycle"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Cycle"
-                            android:fontFamily="sans-serif"/>
+                            android:gravity="center"
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"/>
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipTransit"
                             style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="Transit"
-                            android:fontFamily="sans-serif"/>
+                            android:gravity="center"
+                            android:fontFamily="sans-serif"
+                            android:textAlignment="center"/>
 
-                    </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
