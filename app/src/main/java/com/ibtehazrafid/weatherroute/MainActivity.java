@@ -11,7 +11,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,13 +27,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Views
     private TextInputEditText originInput, destInput;
     private LinearLayout stopsContainer;
-    private MaterialButton addStopButton, dateButton, timeButton, getRouteButton;
+    private MaterialButton addStopButton, dateButton, timeButton, getRouteButton, toggleStopsButton;
     private Chip chipDrive, chipWalk, chipCycle, chipTransit;
+    private TextView stopCountLabel;
     //ViewModel
     private RouteViewModel routeViewModel;
     //State
     private String selectedTravelMode = "DRIVE";
     private long selectedDepartureTime = System.currentTimeMillis();
+    private boolean stopsExpanded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         destInput = findViewById(R.id.destInput);
         stopsContainer = findViewById(R.id.stopsContainer);
         addStopButton = findViewById(R.id.addStopButton);
+        stopCountLabel = findViewById(R.id.stopCountLabel);
+        toggleStopsButton = findViewById(R.id.toggleStopsButton);
         dateButton = findViewById(R.id.dateButton);
         timeButton = findViewById(R.id.timeButton);
         getRouteButton = findViewById(R.id.getRouteButton);
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.googleMap = map;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.setPadding(0, 300, 0, 180);
     }
 
     @Override
@@ -114,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         dateButton.setOnClickListener(v -> showDatePicker());
         timeButton.setOnClickListener(v -> showTimePicker());
         getRouteButton.setOnClickListener(v -> computeRoute());
+        toggleStopsButton.setOnClickListener(v -> toggleStops());
     }
 
     private void observeViewModel() {
@@ -135,21 +142,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     "Maximum 25 stops allowed", Snackbar.LENGTH_SHORT).show();
             return;
         }
+
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // Stop input
         com.google.android.material.textfield.TextInputLayout stopLayout = new com.google.android.material.textfield.TextInputLayout(this);
-        stopLayout.setHint("Stop" + (stopsContainer.getChildCount() + 1));
+        stopLayout.setHint("Stop " + (stopsContainer.getChildCount() + 1));
         stopLayout.setBoxBackgroundMode(com.google.android.material.textfield.TextInputLayout.BOX_BACKGROUND_OUTLINE);
         com.google.android.material.textfield.TextInputEditText stopInput = new com.google.android.material.textfield.TextInputEditText(stopLayout.getContext());
         stopInput.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         stopLayout.addView(stopInput);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0,0,0,16);
-        stopLayout.setLayoutParams(params);
-        stopsContainer.addView(stopLayout);
+        LinearLayout.LayoutParams stopParams = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        stopParams.setMargins(0,0,8,16);
+        stopLayout.setLayoutParams(stopParams);
 
+        MaterialButton deleteButton = new MaterialButton(new android.view.ContextThemeWrapper(this, com.google.android.material.R.style.Widget_Material3_Button), null, 0);
+        deleteButton.setIconResource(android.R.drawable.ic_menu_close_clear_cancel);
+        deleteButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        row.addView(stopLayout);
+        row.addView(deleteButton);
+
+        deleteButton.setOnClickListener(v -> {
+            stopsContainer.removeView(row);
+            for (int i = 0; i < stopsContainer.getChildCount(); i++) {
+                LinearLayout r = (LinearLayout) stopsContainer.getChildAt(i);
+                com.google.android.material.textfield.TextInputLayout l = (com.google.android.material.textfield.TextInputLayout) r.getChildAt(0);
+                l.setHint("Stop " + (i + 1));
+            }
+            updateStopCountLabel();
+        });
+
+        stopsContainer.addView(row);
+        updateStopCountLabel();
+        toggleStopsButton.setVisibility(android.view.View.VISIBLE);
     }
 
     private void showDatePicker() {
@@ -226,7 +261,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 "routes.legs.startLocation,routes.legs.endLocation";
 
         routeViewModel.computeRoute(request, fieldMask);
+        stopsContainer.setVisibility(android.view.View.GONE);
+        addStopButton.setVisibility(android.view.View.GONE);
+    }
 
+    private void toggleStops() {
+        stopsExpanded = !stopsExpanded;
+        if (stopsExpanded) {
+            stopsContainer.setVisibility(android.view.View.VISIBLE);
+            toggleStopsButton.setText("▲ Hide");
+        } else {
+            stopsContainer.setVisibility(android.view.View.GONE);
+            toggleStopsButton.setText("▼ Show");
+        }
+        updateStopCountLabel();
+    }
+
+    private void updateStopCountLabel() {
+        int count = stopsContainer.getChildCount();
+        String text = String.format(Locale.getDefault(), "%d %s planned",
+                count, count == 1 ? "Stop" : "Stops");
+        stopCountLabel.setText(text);
+        if (!stopsExpanded && count > 0) {
+            stopCountLabel.setVisibility(android.view.View.VISIBLE);
+        } else {
+            stopCountLabel.setVisibility(android.view.View.GONE);
+        }
     }
 
 }
