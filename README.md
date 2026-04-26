@@ -40,7 +40,7 @@ Google Routes API / Google Weather API
 2. Get API keys from [Google Cloud Console](https://console.cloud.google.com):
    - Maps SDK for Android
    - Routes API
-   - Places API
+   - Places API (Legacy)
    - Weather API
 3. Create a `local.properties` file in the project root and add:
 ```
