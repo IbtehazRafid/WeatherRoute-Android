@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void launchAutocomplete(int inputId) {
         activeInputId = inputId;
         List<Place.Field> field = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, field).build(this);
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, field).build(this);
         startAutoComplete.launch(intent);
     }
 
@@ -145,7 +145,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.googleMap = map;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        googleMap.setPadding(0, 300, 0, 180);
+        findViewById(R.id.topScrollView).post(() -> {
+            int topHeight = findViewById(R.id.topScrollView).getHeight();
+            int bottomHeight = findViewById(R.id.bottomCard).getHeight();
+            googleMap.setPadding(0, topHeight, 0, bottomHeight);
+        });
     }
 
     @Override
