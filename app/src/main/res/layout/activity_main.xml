@@ -215,74 +215,57 @@
     </androidx.core.widget.NestedScrollView>
 
     <!--BottomOverlayDate/TimeCard-->
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:id="@+id/bottomCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="12dp"
-        app:strokeWidth="0dp"
+        android:orientation="vertical"
+        android:background="?attr/colorSurface"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Departure"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="14sp"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="12dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/dateButton"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="Today"
-                    android:fontFamily="sans-serif"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/timeButton"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Now"
-                    android:fontFamily="sans-serif"/>
-
-            </LinearLayout>
-
-            <!--MainActionButton-->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/getRouteButton"
-                style="@style/Widget.Material3.Button"
-                android:layout_width="match_parent"
+                android:id="@+id/dateButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Get WeatherRoute"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"/>
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Today"
+                android:fontFamily="sans-serif"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/timeButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Now"
+                android:fontFamily="sans-serif"/>
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+
+        <!--MainActionButton-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/getRouteButton"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get WeatherRoute"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="16sp"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

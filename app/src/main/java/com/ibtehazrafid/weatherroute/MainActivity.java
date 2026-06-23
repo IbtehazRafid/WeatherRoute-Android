@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        android.util.Log.d("APIKEY", "Key: " + BuildConfig.MAPS_API_KEY);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
@@ -327,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
         RoutesRequest.Waypoint originWaypoint = new RoutesRequest.Waypoint(new RoutesRequest.Location(new RoutesRequest.LatLng(originLatLng.latitude, originLatLng.longitude)));
-        RoutesRequest.Waypoint destWaypoint = new RoutesRequest.Waypoint(new RoutesRequest.Location(new RoutesRequest.LatLng(originLatLng.latitude, destLatLng.longitude)));
+        RoutesRequest.Waypoint destWaypoint = new RoutesRequest.Waypoint(new RoutesRequest.Location(new RoutesRequest.LatLng(destLatLng.latitude, destLatLng.longitude)));
 
         List<RoutesRequest.Waypoint> intermediates = new ArrayList<>();
         for (int i = 0; i < stopsContainer.getChildCount(); i++) {
